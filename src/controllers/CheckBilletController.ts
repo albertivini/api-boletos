@@ -25,9 +25,7 @@ export class CheckBilletController {
     
             const returned_body = await checkBilletService.execute(value)
     
-            return response.status(200).json({
-                returned_body
-            })
+            return response.status(200).json(returned_body)
         } catch (err) {
             return response.status(400).json({
                 message: err.message
