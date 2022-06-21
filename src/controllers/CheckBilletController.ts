@@ -9,7 +9,7 @@ export class CheckBilletController {
         try {
             const { value } = request.params
 
-            if (value.length !== 47) {
+            if (value.length !== 47 && value.length !== 48) {
                 throw new Error('Invalid quantity of digits')
             } 
 
@@ -23,10 +23,10 @@ export class CheckBilletController {
         
             const checkBilletService = new CheckBilletService()
     
-            const callback = await checkBilletService.execute(value)
+            const returned_body = await checkBilletService.execute(value)
     
             return response.status(200).json({
-                message: callback
+                returned_body
             })
         } catch (err) {
             return response.status(400).json({

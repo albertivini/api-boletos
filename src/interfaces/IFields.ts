@@ -3,5 +3,5 @@ export interface IFields {
     field2: string
     field3: string
     field4: string
-    field5: string
+    field5?: string
 }
