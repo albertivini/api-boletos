@@ -7,3 +7,8 @@ export interface IFieldsProperties {
     due_date_factor: string
     billet_value: string
 }
+
+export interface IBarCodeFieldsProperties {
+    fields_properties: IFieldsProperties,
+    bar_code_without_check_digit: string
+}

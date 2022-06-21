@@ -1,5 +1,6 @@
 import { IFields } from "../interfaces/IFields"
-import { IFieldsProperties } from "../interfaces/IFieldsProperties"
+import { IBarCodeFieldsProperties, IFieldsProperties } from "../interfaces/IFieldsProperties"
+import { IResponse } from "../interfaces/IResponse"
 import { moduleElevenValidation, moduleTenValidation } from "../utils/modulesValidation"
 
 export class ValidateTitleBusiness {
@@ -8,7 +9,7 @@ export class ValidateTitleBusiness {
     field_2_check_digit: string
     field_3_check_digit: string
 
-    async processValidation (digits: string) {        
+    processValidation (digits: string): IResponse {        
         const scannable_lines: IFields = {
             field1: digits.substring(0, 9),
             field2: digits.substring(10, 20),
@@ -43,7 +44,7 @@ export class ValidateTitleBusiness {
         }
     }
 
-    validateCheckDigitsFromFields(scannable_lines: IFields) {
+    validateCheckDigitsFromFields(scannable_lines: IFields): void {
 
         const fields_in_array = [scannable_lines.field1, scannable_lines.field2, scannable_lines.field3]
 
@@ -56,7 +57,7 @@ export class ValidateTitleBusiness {
         }
     }
 
-    cutFieldsToBarCode(scannable_lines: IFields) {
+    cutFieldsToBarCode(scannable_lines: IFields): IBarCodeFieldsProperties {
 
         const fields_properties = {
             financial_recipient: scannable_lines.field1.substring(0, 3),
@@ -79,42 +80,7 @@ export class ValidateTitleBusiness {
         return { fields_properties, bar_code_without_check_digit }
     }
 
-    barCodeCheckDigit (concatted_bar_code: string) {
-
-        const reversed_bar_code = concatted_bar_code.split('').reverse()
-
-        let multiplicator = 2
-
-        let sum_result = 0
-
-        for (const bar_code_number of reversed_bar_code) {
-
-            if (multiplicator === 10) {
-                multiplicator = 2
-            } 
-
-            const value = Number(bar_code_number) * multiplicator
-
-            sum_result = sum_result + value
-
-            multiplicator++
-        }
-
-        const remainder = sum_result % 11
-
-        const subtraction = Math.abs(11 - remainder)
-
-        if (subtraction === 0 || subtraction === 10 || subtraction === 11) {
-            const check_digit = 1
-            return check_digit
-        }
-
-        const check_digit = subtraction
-
-        return check_digit
-    }
-
-    calculateDueDateFactor(due_date_factor: string) {
+    calculateDueDateFactor(due_date_factor: string): string {
         let base_date = new Date('1997-10-07');
 
         base_date.setTime(base_date.getTime() + (Number(due_date_factor) * 24 * 60 * 60 * 1000))
@@ -136,7 +102,7 @@ export class ValidateTitleBusiness {
         return expiration_date
     }
 
-    calculateAmount(billet_value: string) {
+    calculateAmount(billet_value: string): string {
 
         const integers = billet_value.substring(0,8)
         const decimals = billet_value.substring(8,10)
@@ -148,7 +114,7 @@ export class ValidateTitleBusiness {
         return amount
     }
 
-    createBarCode(fields_properties: IFieldsProperties, check_digit_bar_code: string) {
+    createBarCode(fields_properties: IFieldsProperties, check_digit_bar_code: string): string {
 
         const bar_code = fields_properties.financial_recipient.concat(fields_properties.coin, 
             check_digit_bar_code,

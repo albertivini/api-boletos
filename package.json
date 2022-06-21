@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/infra/server.ts",
-    "test": "mocha -r ts-node/register tests/*.spec.ts"
+    "test": "mocha -r ts-node/register tests/*.spec.ts",
+    "test:cov": "nyc --reporter=text mocha -r ts-node/register tests/*.spec.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",

@@ -21,16 +21,16 @@ export function moduleTenValidation(field: string) {
         result = result + value
     }
 
-    const next_ten = Math.ceil(result / 10) * 10
+    const remainder = result % 10
 
-    const check_digit = next_ten - result
+    const subtraction = Math.abs(10 - remainder)
 
-    if (check_digit === 10) {
-        const new_check_digit = 0
-        return new_check_digit
+    if (subtraction === 10) {
+        const check_digit = 0
+        return check_digit
     }
 
-    return check_digit
+    return subtraction
 
 }
 

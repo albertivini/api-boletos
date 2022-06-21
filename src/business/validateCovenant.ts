@@ -1,4 +1,5 @@
 import { IFields } from "../interfaces/IFields"
+import { IResponse } from "../interfaces/IResponse"
 import { moduleElevenValidation, moduleTenValidation } from "../utils/modulesValidation"
 
 
@@ -9,7 +10,7 @@ export class ValidateCovenantBusiness {
     field_3_check_digit: string
     field_4_check_digit: string
 
-    processValidation(digits: string) {
+    processValidation(digits: string): IResponse {
 
         const scannable_lines: IFields = {
             field1: digits.substring(0, 11),
@@ -48,7 +49,7 @@ export class ValidateCovenantBusiness {
         
     }
 
-    verifyFieldsCheckDigits(coin_code: string, scannable_lines: IFields) {
+    verifyFieldsCheckDigits(coin_code: string, scannable_lines: IFields): void {
 
         const fields_in_array = [scannable_lines.field1, scannable_lines.field2, scannable_lines.field3, scannable_lines.field4]
 
@@ -59,7 +60,7 @@ export class ValidateCovenantBusiness {
         if (coin_code === '8' || coin_code === '9') this.sendToVerification(11, fields_in_array, check_digit_in_array)
     }
 
-    sendToVerification(module: number, fields_in_array: string[], check_digit_in_array: string[]) {
+    sendToVerification(module: number, fields_in_array: string[], check_digit_in_array: string[]): void {
         for (let iterator = 0; iterator < fields_in_array.length; iterator++) {
             const check_digit = this.verifyDigitByModule(module, fields_in_array[iterator])
             
@@ -67,7 +68,7 @@ export class ValidateCovenantBusiness {
         }
     }
 
-    verifyDigitByModule(module: number, field: string) {
+    verifyDigitByModule(module: number, field: string): number {
         
         if (module === 10) return moduleTenValidation(field)
 
@@ -75,7 +76,7 @@ export class ValidateCovenantBusiness {
 
     }
 
-    createBarCodeWithoutCheckCode(scannable_lines: IFields) {
+    createBarCodeWithoutCheckCode(scannable_lines: IFields): string {
         const first_part_from_field1 = scannable_lines.field1.substring(0,3)
         const last_part_from_field1 = scannable_lines.field1.substring(4)
 
@@ -87,12 +88,12 @@ export class ValidateCovenantBusiness {
         return bar_code_without_check_code
     }
 
-    verifyBarCodeCheckDigit(coin_code: string, bar_code_without_check_code: string) {
+    verifyBarCodeCheckDigit(coin_code: string, bar_code_without_check_code: string): number {
         if (coin_code === '6' || coin_code === '7') return this.verifyDigitByModule(10, bar_code_without_check_code)
         if (coin_code === '8' || coin_code === '9') return this.verifyDigitByModule(11, bar_code_without_check_code)
     }
 
-    getAmount (bar_code: string) {
+    getAmount (bar_code: string): string {
         const billet_value = bar_code.substring(5, 15)
 
         const integers = billet_value.substring(0, 8)
@@ -105,7 +106,7 @@ export class ValidateCovenantBusiness {
         return amount
     }
 
-    getDueDate(bar_code: string) {
+    getDueDate(bar_code: string):  undefined | string {
         const date_string = bar_code.substring(18,26)
 
         const year = date_string.substring(0, 4)
