@@ -7,8 +7,9 @@
     "node": "14.15.0"
   },
   "scripts": {
-    "start": "node dist/src/server.js",
-    "postinstall": "tsc",
+    "start": "node dist/src/infra/server.js",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "dev": "ts-node-dev --transpile-only src/infra/server.ts",
     "test": "mocha -r ts-node/register tests/*.spec.ts",
     "test:cov": "nyc --reporter=text mocha -r ts-node/register tests/*.spec.ts"
