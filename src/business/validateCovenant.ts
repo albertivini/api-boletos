@@ -32,7 +32,7 @@ export class ValidateCovenantBusiness {
         const bar_code_without_check_code = this.createBarCodeWithoutCheckCode(scannable_lines)
 
         const check_digit = this.verifyBarCodeCheckDigit(coin_code, bar_code_without_check_code)
-
+        
         if (check_digit.toString() !== check_digit_bar_code) throw new Error('Invalid Check Digit')
 
         const bar_code = scannable_lines.field1.concat(scannable_lines.field2, scannable_lines.field3, scannable_lines.field4)
@@ -91,6 +91,8 @@ export class ValidateCovenantBusiness {
     verifyBarCodeCheckDigit(coin_code: string, bar_code_without_check_code: string): number {
         if (coin_code === '6' || coin_code === '7') return this.verifyDigitByModule(10, bar_code_without_check_code)
         if (coin_code === '8' || coin_code === '9') return this.verifyDigitByModule(11, bar_code_without_check_code)
+
+        throw new Error('Invalid Coin Code')
     }
 
     getAmount (bar_code: string): string {
