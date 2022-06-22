@@ -86,8 +86,10 @@ export class ValidateTitleBusiness {
         base_date.setTime(base_date.getTime() + (Number(due_date_factor) * 24 * 60 * 60 * 1000))
 
         let day = base_date.getUTCDate() as string | number
-        let month = base_date.getMonth() as string | number
+        let month = base_date.getMonth() as any
         const year = base_date.getFullYear()
+
+        month++
 
         if (month < 10) {
             month = `0${month}`
