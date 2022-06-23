@@ -55,9 +55,19 @@ export class ValidateCovenantBusiness {
 
         const check_digit_in_array = [this.field_1_check_digit, this.field_2_check_digit, this.field_3_check_digit, this.field_4_check_digit]
 
+        this.checkCoinCode(coin_code)
+
         if (coin_code === '6' || coin_code === '7') this.sendToVerification(10, fields_in_array, check_digit_in_array)
 
         if (coin_code === '8' || coin_code === '9') this.sendToVerification(11, fields_in_array, check_digit_in_array)
+        
+    }
+
+    checkCoinCode(coin_code: string): void {
+
+        if (coin_code !== '6' && coin_code !== '7' && coin_code !== '8' && coin_code !== '9') {
+            throw new Error('Invalid Coin Code')
+        }
     }
 
     sendToVerification(module: number, fields_in_array: string[], check_digit_in_array: string[]): void {

@@ -139,9 +139,15 @@ describe('Test Suit - Validate Covenant', async () => {
 
         const bar_code = '1234567891234567891234567891234567891234567'
 
-        const response = validateCovenantBusiness.verifyBarCodeCheckDigit(coin_code, bar_code)
+        let response
 
-        expect(response).to.be.equal(undefined)
+        try {
+            response = validateCovenantBusiness.verifyBarCodeCheckDigit(coin_code, bar_code)
+        } catch (err) {
+            response = err
+        }
+
+        expect(response.message).to.be.equal('Invalid Coin Code')
     })
 
     it('SUCCESS: Verify Fields Check Digits Incorrect Coin Code', async () => {
@@ -154,9 +160,15 @@ describe('Test Suit - Validate Covenant', async () => {
             field4: 'string'
         }
 
-        const response = validateCovenantBusiness.verifyFieldsCheckDigits(coin_code, scannable_lines)
+        let response
 
-        expect(response).to.be.equal(undefined)
+        try {
+            response = validateCovenantBusiness.verifyFieldsCheckDigits(coin_code, scannable_lines)
+        } catch (err) {
+            response = err
+        }
+
+        expect(response.message).to.be.equal('Invalid Coin Code')
     })
 
     it('SUCCESS: Verify Fields Check Digits Incorrect Coin Code', async () => {

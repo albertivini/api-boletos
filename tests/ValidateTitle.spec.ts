@@ -14,7 +14,7 @@ const validateTitleBusiness = new ValidateTitleBusiness()
 const return_body = {
     bar_code: '21299758700000020000001121100012100447561740',
     amount: '20.00',
-    expiration_date: '2018/06/16'
+    expiration_date: '2018/07/16'
 } as IResponse
 
 describe('Test Suit - Validate Title', async () => {
@@ -88,7 +88,7 @@ describe('Test Suit - Validate Title', async () => {
 
         const response = validateTitleBusiness.calculateDueDateFactor(factor)
 
-        expect(response).to.be.equal('2018/06/09')
+        expect(response).to.be.equal('2018/07/09')
     })
 
     it('SUCCESS: Calculate Due Date with month more than 10', async () => {
@@ -97,6 +97,6 @@ describe('Test Suit - Validate Title', async () => {
 
         const response = validateTitleBusiness.calculateDueDateFactor(factor)
 
-        expect(response).to.be.equal('2018/11/26')
+        expect(response).to.be.equal('2018/12/26')
     })
 })
